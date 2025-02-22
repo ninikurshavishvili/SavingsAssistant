@@ -3,50 +3,35 @@
         "id": "1A2B3C",
         "name": "გადარიცხვები",
         "percentage": 2,
-        "colorName": "blue",
+        "colorName": "color1",
         "iconName": "arrow.left.arrow.right"
     },
     {
         "id": "4D5E6F",
         "name": "კომუნალარები",
         "percentage": 12,
-        "colorName": "green",
+        "colorName": "color2",
         "iconName": "bolt.fill"
     },
     {
         "id": "7G8H9I",
         "name": "სურსათი",
         "percentage": 25,
-        "colorName": "orange",
+        "colorName": "color3",
         "iconName": "cart.fill"
     },
     {
         "id": "JKL123",
         "name": "განაღდება თანხის",
         "percentage": 10,
-        "colorName": "red",
+        "colorName": "color4",
         "iconName": "banknote"
     },
     {
         "id": "MNO456",
         "name": "ტრანსპორტი",
         "percentage": 10,
-        "colorName": "purple",
+        "colorName": "color5",
         "iconName": "car.fill"
-    },
-    {
-        "id": "PQR789",
-        "name": "გართობა",
-        "percentage": 10,
-        "colorName": "yellow",
-        "iconName": "music.note"
-    },
-    {
-        "id": "XYZ999",
-        "name": "სხვადასხვა ხარჯები",
-        "percentage": 10,
-        "colorName": "gray",
-        "iconName": "ellipsis"
     }
 ]
-

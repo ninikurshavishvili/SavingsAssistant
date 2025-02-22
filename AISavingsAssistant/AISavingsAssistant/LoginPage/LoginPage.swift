@@ -24,6 +24,7 @@ struct LoginPage: View {
                     .foregroundColor(.white)
                     .bold()
                 
+                Spacer()
                 TextField("მომხმარებლის სახელი", text: $viewModel.username)
                     .padding()
                     .background(Color.black.opacity(0.2))
@@ -34,7 +35,6 @@ struct LoginPage: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                     .padding(.horizontal)
-                
                 SecureField("პაროლი", text: $viewModel.password)
                     .padding()
                     .background(Color.black.opacity(0.2))
@@ -53,7 +53,9 @@ struct LoginPage: View {
                         Image(systemName: viewModel.rememberMe ? "checkmark.circle.fill" : "circle")
                             .foregroundColor(viewModel.rememberMe ? .blue : .gray)
                     }
+                    
                     Text("დამახსოვრება")
+                        .padding()
                         .foregroundColor(.white)
                     Spacer()
                 }
@@ -72,7 +74,7 @@ struct LoginPage: View {
                         .padding(.horizontal)
                 }
                 .disabled(!viewModel.isLoginEnabled)
-                
+                Spacer()
                 Text("სახელის და პაროლის აღდგენა")
                     .foregroundColor(.blue)
                     .padding(.top)

@@ -21,13 +21,11 @@ struct SpendingCategory: Identifiable, Codable {
 
     var uiColor: Color {
         switch color.lowercased() {
-        case "blue": return .blue
-        case "green": return .green
-        case "orange": return .orange
-        case "red": return .red
-        case "purple": return .purple
-        case "yellow": return .yellow
-        case "gray": return .gray
+        case "color1": return CustomColors.color1
+        case "color2": return CustomColors.color2
+        case "color3": return CustomColors.color3
+        case "color4": return CustomColors.color4
+        case "color5": return CustomColors.color5
         default: return .black
         }
     }
