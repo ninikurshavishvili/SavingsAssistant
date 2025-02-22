@@ -8,30 +8,30 @@
 import SwiftUI
 
 struct IncomePage: View {
-    @State private var userIncome: String = ""
-    @State private var showAlert: Bool = false
-    @State private var navigateToNextPage: Bool = false
+    @StateObject private var viewModel = AssistantViewModel()
+    @State private var showSmartSavingPage = false
 
     var body: some View {
         VStack {
-            Spacer()
-            
-            Image("income")
-                .resizable()
-                .scaledToFit()
-                .frame(height: 250)
-                .cornerRadius(25)
-            
-            Spacer()
-            
             VStack(spacing: 8) {
+                Spacer()
+                
+                Image("income")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 250)
+                    .cornerRadius(25)
+                Spacer()
+                
                 Text("Enter Your Monthly Income")
                     .font(.title2)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
                     .multilineTextAlignment(.center)
-                
-                TextField("e.g. 5000", text: $userIncome)
+                    .padding()
+
+                TextField("Enter Amount", text: $viewModel.amount)
+                    .keyboardType(.decimalPad)
                     .padding()
                     .background(Color.black.opacity(0.2))
                     .cornerRadius(12)
@@ -41,41 +41,53 @@ struct IncomePage: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                     .padding(.horizontal, 30)
-            }
-            
-            Spacer()
-            
-            Button(action: {
-                showAlert = true
-            }) {
-                Text("Analyze with AI")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(CustomColors.buttonBlue)
-                    .cornerRadius(12)
-                    .padding(.horizontal, 30)
-            }
-            .alert("AI Processing Consent", isPresented: $showAlert) {
-                Button("Don't Allow", role: .cancel) {}
-                Button("Allow") {
-                    navigateToNextPage = true
+
+                Button(action: {
+                    viewModel.sendAmount()
+                    if viewModel.isSuccess {
+                        showSmartSavingPage = true
+                    }
+                }) {
+                    Text("Submit")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(viewModel.amount.isEmpty ? Color.gray : CustomColors.buttonBlue)
+                        .cornerRadius(12)
+                        .padding(.horizontal, 30)
                 }
-            } message: {
-                Text("Your data will be processed by AI. Do you want to continue?")
+                .disabled(viewModel.amount.isEmpty)
+
+                if let errorMessage = viewModel.errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .padding(.top, 10)
+                }
+
+                if viewModel.isSuccess {
+                    Text("Amount submitted successfully!")
+                        .foregroundColor(.green)
+                        .padding(.top, 10)
+                }
+
+                Spacer()
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(CustomColors.homePageDark.ignoresSafeArea())
+            .navigationBarBackButtonHidden(true)
             
-            Spacer()
+            NavigationLink(
+                destination: SmartSavingPage(userIncome: Double(viewModel.amount) ?? 0),
+                isActive: $showSmartSavingPage,
+                label: { EmptyView() }
+            )
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(CustomColors.homePageDark.ignoresSafeArea())
-        .navigationBarBackButtonHidden(true)
-        .background(
-            NavigationLink(destination: SmartSavingPage(userIncome: Double(userIncome) ?? 0.0),
-                           isActive: $navigateToNextPage) { EmptyView() }
-        )
     }
 }
 
 
+#Preview {
+    IncomePage()
+        
+}
