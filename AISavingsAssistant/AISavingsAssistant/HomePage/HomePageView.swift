@@ -17,6 +17,9 @@ struct HomePageView: View {
             
             VStack {
                 Spacer()
+                
+                FeatureCard(navigateToAssistant: $navigateToAssistant)
+                
                 Spacer()
                 
                 NavigationLink("", destination: AssistantPage(), isActive: $navigateToAssistant)
@@ -34,6 +37,5 @@ struct HomePageView: View {
         }
     }
 }
-
 
 

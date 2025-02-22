@@ -25,7 +25,7 @@ struct LoginPage: View {
                     .bold()
                 
                 Spacer()
-                TextField("მომხმარებლის სახელი", text: $viewModel.username)
+                TextField("მომხმარებლის სახელი", text: $viewModel.email)
                     .padding()
                     .background(Color.black.opacity(0.2))
                     .cornerRadius(12)
@@ -54,9 +54,12 @@ struct LoginPage: View {
                             .foregroundColor(viewModel.rememberMe ? .blue : .gray)
                     }
                     
-                    Text("დამახსოვრება")
-                        .padding()
+                    Text("დათანხმება")
                         .foregroundColor(.white)
+                        .onTapGesture {
+                            viewModel.rememberMe.toggle()
+                        }
+
                     Spacer()
                 }
                 .padding(.horizontal)
