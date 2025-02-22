@@ -9,3 +9,7 @@
 struct AssistantModel: Codable {
     let amount: Double
 }
+
+struct AssistantResponse: Codable {
+    var spending_plan: String
+}

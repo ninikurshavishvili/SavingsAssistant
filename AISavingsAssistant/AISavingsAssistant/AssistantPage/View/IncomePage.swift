@@ -4,12 +4,13 @@
 //
 //  Created by Nino Kurshavishvili on 21.02.25.
 //
-
 import SwiftUI
 
 struct IncomePage: View {
     @StateObject private var viewModel = AssistantViewModel()
     @State private var showSmartSavingPage = false
+    @State private var isLoading = false
+    @State private var isAnalyzing = false
 
     var body: some View {
         VStack {
@@ -43,9 +44,19 @@ struct IncomePage: View {
                     .padding(.horizontal, 30)
 
                 Button(action: {
-                    viewModel.sendAmount()
-                    if viewModel.isSuccess {
-                        showSmartSavingPage = true
+                    isLoading = true
+                    isAnalyzing = true
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                        viewModel.sendAmount()
+                        isAnalyzing = false
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            isLoading = false
+                            if viewModel.isSuccess {
+                                showSmartSavingPage = true
+                            }
+                        }
                     }
                 }) {
                     Text("Submit")
@@ -59,16 +70,30 @@ struct IncomePage: View {
                 }
                 .disabled(viewModel.amount.isEmpty)
 
-                if let errorMessage = viewModel.errorMessage {
-                    Text(errorMessage)
-                        .foregroundColor(.red)
-                        .padding(.top, 10)
-                }
-
-                if viewModel.isSuccess {
-                    Text("Amount submitted successfully!")
-                        .foregroundColor(.green)
-                        .padding(.top, 10)
+                if isLoading {
+                    VStack {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .scaleEffect(1.5)
+                        
+                        if isAnalyzing {
+                            Text("AI is analyzing your amount...")
+                                .foregroundColor(.white)
+                                .font(.subheadline)
+                                .padding(.top, 5)
+                        } else {
+                            Text("Amount submitted successfully!")
+                                .foregroundColor(.green)
+                                .padding(.top, 5)
+                        }
+                    }
+                    .padding(.top, 10)
+                } else {
+                    if let errorMessage = viewModel.errorMessage {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                            .padding(.top, 10)
+                    }
                 }
 
                 Spacer()
@@ -78,7 +103,7 @@ struct IncomePage: View {
             .navigationBarBackButtonHidden(true)
             
             NavigationLink(
-                destination: SmartSavingPage(userIncome: Double(viewModel.amount) ?? 0),
+                destination: SmartSavingPage(assistantViewModel: viewModel, userIncome: Double(viewModel.amount) ?? 0),
                 isActive: $showSmartSavingPage,
                 label: { EmptyView() }
             )
@@ -86,8 +111,6 @@ struct IncomePage: View {
     }
 }
 
-
 #Preview {
     IncomePage()
-        
 }

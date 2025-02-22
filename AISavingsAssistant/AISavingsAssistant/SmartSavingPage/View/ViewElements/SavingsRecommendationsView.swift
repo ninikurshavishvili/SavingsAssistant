@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SavingsRecommendationsView: View {
+    @ObservedObject var viewModel: AssistantViewModel
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
@@ -21,11 +23,13 @@ struct SavingsRecommendationsView: View {
                     .foregroundColor(.gray)
             }
 
-            Text("💡 Suggestion: Reduce entertainment expenses by 10% to save an extra $50 this month!")
-                .font(.body)
-                .multilineTextAlignment(.leading)
-                .foregroundColor(.white)
-                .padding(.vertical, 5)
+            if let spendingPlan = viewModel.spendingPlan {
+                Text(spendingPlan)
+                    .font(.body)
+                    .multilineTextAlignment(.leading)
+                    .foregroundColor(.white)
+                    .padding(.vertical, 5)
+            }
 
             Divider()
                 .background(Color.gray.opacity(0.4))

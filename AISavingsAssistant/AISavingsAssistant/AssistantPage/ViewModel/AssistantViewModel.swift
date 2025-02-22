@@ -13,6 +13,7 @@ class AssistantViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var errorMessage: String?
     @Published var isSuccess: Bool = false
+    @Published var spendingPlan: String?
 
     func sendAmount() {
         guard let amountValue = Double(amount), amountValue > 0 else {
@@ -68,8 +69,15 @@ class AssistantViewModel: ObservableObject {
 
                 print("🟢 Received HTTP response: \(httpResponse.statusCode)")
 
-                if let data = data, let responseBody = String(data: data, encoding: .utf8) {
-                    print("📥 Response body: \(responseBody)")
+                if let data = data {
+                    do {
+                        let decodedResponse = try JSONDecoder().decode(AssistantResponse.self, from: data)
+                        self.spendingPlan = decodedResponse.spending_plan
+                        print("📥 Response: \(self.spendingPlan ?? "No spending plan")")
+                    } catch {
+                        self.errorMessage = "Failed to decode response: \(error.localizedDescription)"
+                        print("❌ Failed to decode response: \(error.localizedDescription)")
+                    }
                 }
 
                 if httpResponse.statusCode == 200 {

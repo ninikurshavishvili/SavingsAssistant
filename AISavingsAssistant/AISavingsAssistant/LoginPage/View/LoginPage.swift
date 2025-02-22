@@ -25,6 +25,7 @@ struct LoginPage: View {
                     .bold()
                 
                 Spacer()
+                
                 TextField("მომხმარებლის სახელი", text: $viewModel.email)
                     .padding()
                     .background(Color.black.opacity(0.2))
@@ -35,6 +36,9 @@ struct LoginPage: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                     .padding(.horizontal)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
+
                 SecureField("პაროლი", text: $viewModel.password)
                     .padding()
                     .background(Color.black.opacity(0.2))
@@ -45,6 +49,8 @@ struct LoginPage: View {
                             .stroke(Color.gray, lineWidth: 1)
                     )
                     .padding(.horizontal)
+                    .autocapitalization(.none)
+                    .disableAutocorrection(true)
                 
                 HStack {
                     Button(action: {
@@ -77,6 +83,7 @@ struct LoginPage: View {
                         .padding(.horizontal)
                 }
                 .disabled(!viewModel.isLoginEnabled)
+                
                 Spacer()
                 Text("სახელის და პაროლის აღდგენა")
                     .foregroundColor(.blue)

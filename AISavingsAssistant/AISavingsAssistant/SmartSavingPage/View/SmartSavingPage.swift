@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SmartSavingPage: View {
     @StateObject private var viewModel = SpendingViewModel()
+    @ObservedObject var assistantViewModel: AssistantViewModel
     let userIncome: Double
 
     var body: some View {
@@ -26,7 +27,7 @@ struct SmartSavingPage: View {
                     .shadow(radius: 5)
                     .padding(.horizontal)
                 
-                SavingsRecommendationsView()
+                SavingsRecommendationsView(viewModel: assistantViewModel)
                     .cornerRadius(25)
                     .shadow(radius: 5)
                     .padding(.horizontal)
